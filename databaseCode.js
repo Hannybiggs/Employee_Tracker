@@ -74,11 +74,32 @@ connection.connect((err) => {
   };
   
   const allEmployees = () => {
-  
+    const query = 
+    'SELECT first_name,last_name FROM employee';
+    connection.query(query, (err, res) => {
+      if (err) throw (err);
+      res.forEach(({ first_name, last_name}) =>
+      console.log(
+        `First Name: ${first_name} || Last Name: ${last_name}`
+        )
+      );
+      runSearch();
+    });
   };
   
   const departmentSearch = () => {
-  
+    inquirer
+      .prompt({
+        name:'department',
+        type: 'input'
+      })
+      .then((answer) => {
+        const query = 'SELECT first_name, last_name, '
+        //NEED TO JOIN TO GET INFO FROM OTHER TABLE FOR DEPARTMENT
+        connection.query(query, {})
+
+      }
+      );
   };
   
   const roleSearch = () => {
@@ -86,15 +107,65 @@ connection.connect((err) => {
   };
   
   const addDepartment = () => {
-  
+    inquirer
+      .prompt([
+        {
+          name: 'addDepartment',
+          type: 'input',
+          message: 'What department would you like to add?',
+        }
+      .then((answer) => {
+        const query =
+        'INSERT INTO department(department_name) VALUES ?';
+        connection.query(query, [answer.addDepartment], (err, res) => {
+          if (err) throw err;
+          console.log(res);
+          runSearch();
+        })
+      })
+      ])
   };
   
   const addRole = () => {
+    inquirer
+      .prompt([
+        {
+          name: 'addRole',
+          type: 'input',
+          message: 'What role would you like to add?',
+        }
+      .then((answer) => {
+        const query =
+        'INSERT INTO role(title) VALUES ?';
+        connection.query(query, [answer.addRole], (err, res) => {
+          if (err) throw (err);
+          console.log(res);
+          runSearch();
+        })
+      })
+      ])
   
   };
   
-  const addEmployee = () => {
-  
+  const addEmployee = () => { 
+    // inquirer
+    // .prompt([
+    //   {
+    //     name: 'addEmployee',
+    //     type: 'input',
+    //     message: 'What role would you like to add?',
+    //   }
+    // .then((answer) => {
+    //   const query =
+    //   'INSERT INTO role(title) VALUES ?';
+    //   connection.query(query, [answer.addRole], (err, res) => {
+    //     if (err) throw (err);
+    //     console.log(res);
+    //     runSearch();
+    //   })
+    // })
+    // ])
+
   };
   
   const updateEmployee = () => {
